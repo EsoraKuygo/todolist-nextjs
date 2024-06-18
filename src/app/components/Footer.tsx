@@ -1,9 +1,10 @@
 "use client";
+import styles from "./Footer.module.scss";
 
 export default function Footer() {
   return (
     <footer>
-      <p>dierected by esora</p>
+      <p className={styles.textfooter}>dierected by esora</p>
     </footer>
   );
 }
