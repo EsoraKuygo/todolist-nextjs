@@ -1,0 +1,13 @@
+.h1 {
+  padding-bottom: 5px;
+}
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  background-color: #121212; /* Couleur de fond sombre pour la page entière */
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}

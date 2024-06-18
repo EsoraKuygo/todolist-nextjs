@@ -1,0 +1,5 @@
+{
+  "key": "F2", // ou autre touche de votre choix
+  "command": "workbench.action.debug.selectandstart",
+  "args": "Launch Full Stack"
+}

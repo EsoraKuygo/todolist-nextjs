@@ -1,0 +1,12 @@
+.h2 {
+}
+.toDoListContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.todoListTitle {
+  align-self: center;
+  font-size: xx-large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
