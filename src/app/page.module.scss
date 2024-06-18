@@ -10,7 +10,7 @@
   border: 2px solid #555; /* Bordure plus claire */
   padding: 10px 20px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -20,8 +20,3 @@
   color: #fff; /* Assurez-vous que le texte reste blanc */
 }
 
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px; /* Espacement entre les boutons */
-}

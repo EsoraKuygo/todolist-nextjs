@@ -12,6 +12,7 @@ interface ToDo {
 interface ToDoTache {
   todos: ToDo[];
   addTodo: (task: string) => void;
+  removeTodo: (id: number) => void;
 }
 
 // Creation of context
@@ -36,5 +37,9 @@ export function ToDoProvider({ children }: { children: ReactNode }) {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
-  return <ToDoContext.Provider value={{ todos, addTodo }}>{children}</ToDoContext.Provider>;
+  const removeTodo = (id:number) => {
+    setTodos((prevTodos)=> prevTodos.filter(todo => todo.id !== id));
+  }
+
+  return <ToDoContext.Provider value={{ todos, addTodo, removeTodo }}>{children}</ToDoContext.Provider>;
 }
