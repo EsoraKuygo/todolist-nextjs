@@ -9,7 +9,7 @@ export default function List() {
       <h2 className={styles.todoListTitle}>To-Do List</h2>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.tache}</li>
+          <li key={todo.id} className={styles.li}><p>{todo.tache}</p></li>
         ))}
       </ul>
     </div>

@@ -1,5 +1,4 @@
-.h2 {
-}
+
 .toDoListContainer {
   display: flex;
   align-items: center;
@@ -9,4 +8,9 @@
   align-self: center;
   font-size: xx-large;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.li{p:hover{
+  text-decoration:line-through;
+}
 }
