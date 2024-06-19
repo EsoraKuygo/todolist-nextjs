@@ -2,12 +2,6 @@
 
 import { ReactNode, createContext, useContext, useState } from "react";
 
-// Creation of ToDo interface
-interface ToDo {
-  id: number;
-  tache: string;
-}
-
 // Creation of ToDoTache interface
 interface ToDoTache {
   todos: ToDo[];
@@ -37,9 +31,21 @@ export function ToDoProvider({ children }: { children: ReactNode }) {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
-  const removeTodo = (id:number) => {
-    setTodos((prevTodos)=> prevTodos.filter(todo => todo.id !== id));
-  }
+  const removeTodo = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:3000/todos`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+      } else {
+        console.error("Failed to delete todo");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return <ToDoContext.Provider value={{ todos, addTodo, removeTodo }}>{children}</ToDoContext.Provider>;
 }
