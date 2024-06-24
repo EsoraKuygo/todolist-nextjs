@@ -45,4 +45,14 @@ export default class TodoRepository {
       id,
     });
   }
+
+  async modifTodo(id: bigint, tache: string): Promise<Todo> {
+    const todoEntity = await this.repository.findOneBy({ id });
+    if (todoEntity) {
+      todoEntity.tache = tache;
+      const todoUpdated = await this.repository.save(todoEntity);
+      return TodoConverter.toCoreEntity(todoUpdated);
+    }
+    throw new Error("todo inexistant in db");
+  }
 }

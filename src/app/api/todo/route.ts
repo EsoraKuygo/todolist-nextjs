@@ -32,6 +32,27 @@ export async function DELETE(req: Request): Promise<Response> {
   await repo.supprTodo(id);
   return new Response("ok");
 }
+const patchSchema = z.object({
+  id: z.string().or(z.number()),
+  tache: z.string().min(1, "Task cannot be empty"),
+});
+
+export async function PATCH(req: Request): Promise<Response> {
+  let data;
+  try {
+    data = await req.json();
+    patchSchema.parse(data);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: "invalid data" }));
+  }
+
+  const connexion = await Connection.getInstance();
+  const repo = new TodoRepository(connexion);
+  const todo = await repo.modifTodo(data.id, data.tache);
+
+  const updatedTodoDTO = TodoConverter.toDTO(todo);
+  return new Response(JSON.stringify(updatedTodoDTO));
+}
 
 const postSchema = z.object({
   tache: z.string().min(1, "Task cannot be empty"),

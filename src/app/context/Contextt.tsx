@@ -7,6 +7,9 @@ interface ToDoTache {
   todos: ToDoDTO[];
   addTodo: (task: string) => void;
   removeTodo: (id: string) => void;
+  updateTodo: (id: string, task: string) => void;
+  updatetaskid: string | undefined;
+  setUpdatetaskid: (id: string | undefined) => void;
 }
 
 // Creation of context
@@ -24,6 +27,8 @@ export const useToDo = () => {
 // Provider component
 export function ToDoProvider({ children }: { children: ReactNode }) {
   const [todos, setTodos] = useState<ToDoDTO[]>([]);
+
+  const [updatetaskid, setUpdatetaskid] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -88,5 +93,29 @@ export function ToDoProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  return <ToDoContext.Provider value={{ todos, addTodo, removeTodo }}>{children}</ToDoContext.Provider>;
+  //function to modify targeted todo
+  const updateTodo = async (id: string, tache: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/todo`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          id,
+        }),
+      });
+
+      if (response.ok) {
+        setUpdatetaskid(id);
+      } else {
+        console.error("Failed to patch todo");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  return (
+    <ToDoContext.Provider value={{ todos, addTodo, removeTodo, updateTodo, updatetaskid, setUpdatetaskid }}>
+      {children}
+    </ToDoContext.Provider>
+  );
 }

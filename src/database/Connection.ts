@@ -1,6 +1,5 @@
 import { DataSource } from "typeorm";
 import dataSourceOptions from "./DataSourceOptions";
-
 export default class Connection {
   private static instance: Connection | null = null;
   private dataSource: DataSource = new DataSource(dataSourceOptions);
