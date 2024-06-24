@@ -1,12 +1,15 @@
 "use client";
+
 import { useToDo } from "../context/Contextt";
 import styles from "./List.module.scss";
 
 export default function List() {
   const { todos, removeTodo } = useToDo();
-  const TodoClick = (id: number) => {
+
+  const TodoClick = (id: string) => {
     removeTodo(id);
   };
+
   return (
     <div className={styles.toDoListContainer}>
       <h2 className={styles.todoListTitle}>To-Do List</h2>

@@ -1,4 +1,5 @@
 import { DataSourceOptions } from "typeorm";
+import { TodoEntity } from "./entities/TodoEntity";
 
 const portDBContainer: number = parseInt(process.env.DB_PORT || "5432"); /* Port de la base de données. */
 const isDebug: boolean = process.env.DEBUG_TYPEORM === "true"; /* Détermine si le mode debug est activé. */
@@ -20,7 +21,7 @@ const dataSourceOptions: DataSourceOptions = {
   logging: isDebug /* Active les logs en mode debug. */,
 
   /*  Entités à utiliser par TypeORM. */
-  entities: [],
+  entities: [TodoEntity],
 
   migrations: ["src/migrations/**/*.ts"] /* Chemin vers les fichiers de migration. */,
   subscribers: ["src/subscribers/**/*.ts"] /* Chemin vers les fichiers de subscriber. */,

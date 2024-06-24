@@ -1,5 +1,7 @@
+import Todo from "@/core/entities/Todo";
 import type { Repository } from "typeorm";
 import type Connection from "../Connection";
+import TodoConverter from "../converter/TodoConverter";
 import { TodoEntity } from "../entities/TodoEntity";
 
 export default class TodoRepository {
@@ -16,21 +18,18 @@ export default class TodoRepository {
    * @param todo : interface d'une taches
    *
    */
-  async saveTodo(todo: ToDo) {
+  async saveTodo(todo: Todo) {
     // instancier entity
-    const todoEntity = new TodoEntity(todo);
+    const todoEntity = TodoConverter.toDataBaseEntity(todo);
     await this.repository.save(todoEntity);
   }
 
-  async findall(): Promise<ToDo[]> {
+  async findall(): Promise<Todo[]> {
     const result = await this.repository.find();
-    return result.map((todoEntity) => ({
-      id: todoEntity.id,
-      tache: todoEntity.tache,
-    }));
+    return result.map((todoEntity) => TodoConverter.toCoreEntity(todoEntity));
   }
 
-  async findby(argument: Partial<ToDo>): Promise<ToDo[]> {
+  async findby(argument: Partial<ToDoDTODataBase>): Promise<Todo[]> {
     // chercher les ligne la ou l'id est egal a "argument"
     const result = await this.repository.find({
       where: {
@@ -38,13 +37,10 @@ export default class TodoRepository {
       },
     });
     // mettre en forme
-    return result.map((todoEntity) => ({
-      id: todoEntity.id,
-      tache: todoEntity.tache,
-    }));
+    return result.map((todoEntity) => TodoConverter.toCoreEntity(todoEntity));
   }
 
-  async supprTodo(id: number): Promise<void> {
+  async supprTodo(id: bigint): Promise<void> {
     const result = await this.repository.delete({
       id,
     });

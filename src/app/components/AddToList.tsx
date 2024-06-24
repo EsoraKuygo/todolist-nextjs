@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-// import styles from "./Ad";
 import { useToDo } from "../context/Contextt";
 
 export default function AddToList() {
   const [task, setTask] = useState("");
   const { addTodo } = useToDo();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (task.trim()) {
-      addTodo(task);
+      await addTodo(task);
+
       setTask("");
     }
   };
@@ -19,7 +19,7 @@ export default function AddToList() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={task} onChange={(e) => setTask(e.target.value)}></input>
+        <input type="text" value={task} onChange={(e) => setTask(e.target.value)} />
         <button type="submit">Add</button>
       </form>
     </div>

@@ -8,8 +8,11 @@ export default class Connection {
   private constructor() {}
 
   static async getInstance() {
-    if (this.instance == null) this.instance = new Connection();
-    await this.instance.dataSource.initialize();
+    if (this.instance === null) {
+      this.instance = new Connection();
+      await this.instance.dataSource.initialize();
+    }
+
     return this.instance;
   }
 

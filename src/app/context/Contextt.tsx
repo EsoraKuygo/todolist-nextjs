@@ -1,12 +1,12 @@
 "use client";
 
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 // Creation of ToDoTache interface
 interface ToDoTache {
-  todos: ToDo[];
+  todos: ToDoDTO[];
   addTodo: (task: string) => void;
-  removeTodo: (id: number) => void;
+  removeTodo: (id: string) => void;
 }
 
 // Creation of context
@@ -23,18 +23,59 @@ export const useToDo = () => {
 
 // Provider component
 export function ToDoProvider({ children }: { children: ReactNode }) {
-  const [todos, setTodos] = useState<ToDo[]>([]);
+  const [todos, setTodos] = useState<ToDoDTO[]>([]);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/todo");
+        console.log("yes");
+        if (response.ok) {
+          const data = await response.json();
+          setTodos(data);
+        } else {
+          console.error("Failed to fetch todos");
+        }
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+
+    fetchTodos();
+  }, []);
+
+  useEffect(() => {
+    console.log(todos);
+  }, [todos]);
 
   // Function to add a new todo to the list
-  const addTodo = (tache: string) => {
-    const newTodo = { id: Date.now(), tache };
-    setTodos((prevTodos) => [...prevTodos, newTodo]);
-  };
-
-  const removeTodo = async (id: number) => {
+  const addTodo = async (tache: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/todos`, {
+      const response = await fetch("http://localhost:3000/api/todo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tache }),
+      });
+      if (response.ok) {
+        const newTodo = await response.json();
+        setTodos((prevTodos) => [...prevTodos, newTodo]);
+      } else {
+        console.error("Failed to add todo");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  //function to remove to do off the list
+  const removeTodo = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/todo`, {
         method: "DELETE",
+        body: JSON.stringify({
+          id,
+        }),
       });
 
       if (response.ok) {
