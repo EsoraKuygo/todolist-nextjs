@@ -4,14 +4,14 @@ import { useToDo } from "../context/Contextt";
 import styles from "./List.module.scss";
 
 export default function List() {
-  const { todos, removeTodo, updateTodo, setUpdatetaskid } = useToDo();
+  const { todos, removeTodo, setUpdatetaskid, selectedId, setSelectedId } = useToDo();
 
   const TododblClick = (id: string) => {
     removeTodo(id);
   };
 
   const Todoclick = (id: string, tache: string) => {
-    updateTodo(id, tache);
+    setSelectedId(id);
     setUpdatetaskid(id);
     console.log(id, tache);
   };
@@ -23,7 +23,7 @@ export default function List() {
         {todos.map((todo) => (
           <li
             key={todo.id}
-            className={styles.li}
+            className={`${styles.li} ${selectedId === todo.id ? styles.selected : ""}`}
             onDoubleClick={() => TododblClick(todo.id)}
             onClick={() => Todoclick(todo.id, todo.tache)}
           >

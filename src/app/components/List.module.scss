@@ -1,4 +1,3 @@
-
 .toDoListContainer {
   display: flex;
   align-items: center;
@@ -10,7 +9,15 @@
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
-.li{p:hover{
-  text-decoration:line-through;
+.li {
+  p:hover {
+    text-decoration: line-through;
+  }
 }
+
+.selected {
+  background-color: rgba(119, 109, 109, 0.5);
+  p:hover {
+    text-decoration: none;
+  }
 }

@@ -1,11 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToDo } from "../context/Contextt";
 
 export default function AddToList() {
   const [task, setTask] = useState("");
-  const { addTodo, updatetaskid, setUpdatetaskid, updateTodo } = useToDo();
+  const { addTodo, updatetaskid, setUpdatetaskid, updateTodo, selectedId, todos } = useToDo();
+
+  useEffect(() => {
+    if (selectedId) {
+      const selectedTodo = todos.find((todo) => todo.id === selectedId);
+      if (selectedTodo) {
+        setTask(selectedTodo.tache);
+      }
+    }
+  }, [selectedId, todos]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,12 +26,13 @@ export default function AddToList() {
       }
     } else {
       if (task.trim()) {
-        updateTodo(updatetaskid, task);
+        await updateTodo(updatetaskid, task);
         setTask("");
         setUpdatetaskid(undefined);
       }
     }
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
