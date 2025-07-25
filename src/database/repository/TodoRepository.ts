@@ -55,4 +55,38 @@ export default class TodoRepository {
     }
     throw new Error("todo inexistant in db");
   }
+
+  async findById(id: bigint): Promise<Todo | null> {
+    const todoEntity = await this.repository.findOneBy({ id });
+    if (todoEntity) {
+      return TodoConverter.toCoreEntity(todoEntity);
+    }
+    return null;
+  }   
+  async findByTache(tache: string): Promise<Todo[]> {
+    const todoEntities = await this.repository.find({
+      where: { tache },
+    });
+    return todoEntities.map((todoEntity) => TodoConverter.toCoreEntity(todoEntity));
+  }
+  async findByIdOrTache(id: bigint, tache: string): Promise<Todo[]> {
+    const todoEntities = await this.repository.find({
+      where: [
+        { id },
+        { tache },
+      ],
+    });
+    return todoEntities.map((todoEntity) => TodoConverter.toCoreEntity(todoEntity));
+  }
+  async findByIds(ids: bigint[]): Promise<Todo[]> {
+    const todoEntities = await this.repository.findByIds(ids);
+    return todoEntities.map((todoEntity) => TodoConverter.toCoreEntity(todoEntity));
+  }
+  async findByTaches(taches: string[]): Promise<Todo[]> {
+    const todoEntities = await this.repository.find({
+      where: { tache: taches },
+    });
+    return todoEntities.map((todoEntity) => TodoConverter.toCoreEntity(todoEntity));
+  }
+  
 }

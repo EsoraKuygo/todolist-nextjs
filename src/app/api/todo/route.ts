@@ -45,6 +45,41 @@ export async function PATCH(req: Request): Promise<Response> {
   } catch (e) {
     return new Response(JSON.stringify({ error: "invalid data" }));
   }
+  if (typeof data.id === "string") {
+    data.id = BigInt(data.id);
+  } else if (typeof data.id === "number") {
+    data.id = BigInt(data.id);
+  }
+  if (data.id <= 0) {
+    return new Response(JSON.stringify({ error: "invalid id" }));
+  }
+  if (data.tache.trim() === "") {
+    return new Response(JSON.stringify({ error: "Task cannot be empty" }));
+  }
+  if (data.tache.length > 255) {
+    return new Response(JSON.stringify({ error: "Task is too long" }));
+  }
+  if (data.tache.length < 3) {
+    return new Response(JSON.stringify({ error: "Task is too short" }));
+  }
+  if (data.tache.includes("`") || data.tache.includes("'") || data.tache.includes('"')) {
+    return new Response(JSON.stringify({ error: "Task contains invalid characters" }));
+  }
+  if (data.tache.includes("<") || data.tache.includes(">") || data.tache.includes("&")) {
+    return new Response(JSON.stringify({ error: "Task contains invalid HTML characters" }));
+  }
+  if (data.tache.includes("script") || data.tache.includes("javascript")) {
+    return new Response(JSON.stringify({ error: "Task contains invalid script characters" }));
+  }
+  if (data.tache.includes("SELECT") || data.tache.includes("INSERT") || data.tache.includes("UPDATE") || data.tache.includes("DELETE")) {
+    return new Response(JSON.stringify({ error: "Task contains invalid SQL characters" }));
+  }
+  if (data.tache.includes("DROP") || data.tache.includes("CREATE") || data.tache.includes("ALTER")) {
+    return new Response(JSON.stringify({ error: "Task contains invalid SQL characters" }));
+  }
+  if (data.tache.includes("TRUNCATE") || data.tache.includes("GRANT") || data.tache.includes("REVOKE")) {
+    return new Response(JSON.stringify({ error: "Task contains invalid SQL characters" }));
+  }
 
   const connexion = await Connection.getInstance();
   const repo = new TodoRepository(connexion);

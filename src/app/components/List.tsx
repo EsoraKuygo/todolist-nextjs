@@ -14,6 +14,26 @@ export default function List() {
     setSelectedId(id);
     setUpdatetaskid(id);
     console.log(id, tache);
+    const inputElement = document.querySelector<HTMLInputElement>("#inputTodo");
+    if (inputElement) {
+      inputElement.value = tache;
+    }
+    const buttonElement = document.querySelector<HTMLButtonElement>("#buttonUpdate");
+    if (buttonElement) {
+      buttonElement.style.display = "block";
+    }
+    const addButtonElement = document.querySelector<HTMLButtonElement>("#buttonAdd");
+    if (addButtonElement) {
+      addButtonElement.style.display = "none";
+    }
+    const formElement = document.querySelector<HTMLFormElement>("#formTodo");
+    if (formElement) {
+      formElement.style.display = "none";
+    }
+    const updateFormElement = document.querySelector<HTMLFormElement>("#formUpdateTodo");
+    if (updateFormElement) {
+      updateFormElement.style.display = "block";
+    }   
   };
 
   return (
